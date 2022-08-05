@@ -4,10 +4,23 @@ import { FC } from 'react';
 interface AuthPageProps {}
 
 const AuthPage: FC<AuthPageProps> = () => {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordCheck, setPasswordCheck] = useState<string>('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {};
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    switch (name) {
+      case 'email':
+        return setEmail(value);
+      case 'password':
+        return setPassword(value);
+      case 'passwordCheck':
+        return setPasswordCheck(value);
+      default:
+        return;
+    }
+  };
 
   const handleSubmit = () => {};
   return (
@@ -27,6 +40,7 @@ const AuthPage: FC<AuthPageProps> = () => {
         />
         <input
           name="passwordCheck"
+          value={passwordCheck}
           onChange={handleChange}
           placeholder="Password Check"
         />
