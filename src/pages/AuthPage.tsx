@@ -7,9 +7,11 @@ const AuthPage: FC<AuthPageProps> = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
+    const { name, value, checked } = e.currentTarget;
+
     switch (name) {
       case 'email':
         return setEmail(value);
@@ -17,6 +19,8 @@ const AuthPage: FC<AuthPageProps> = () => {
         return setPassword(value);
       case 'passwordCheck':
         return setPasswordCheck(value);
+      case 'signup':
+        return setIsSignUp(checked);
       default:
         return;
     }
@@ -38,13 +42,26 @@ const AuthPage: FC<AuthPageProps> = () => {
           onChange={handleChange}
           placeholder="Password"
         />
+        {isSignUp && (
+          <input
+            name="passwordCheck"
+            value={passwordCheck}
+            onChange={handleChange}
+            placeholder="Password Check"
+          />
+        )}
+        {isSignUp ? (
+          <button type="submit">Sign Up</button>
+        ) : (
+          <button type="submit">Sign In</button>
+        )}
+        <label htmlFor="signup">Sign Up</label>
         <input
-          name="passwordCheck"
-          value={passwordCheck}
+          name="signup"
+          type="checkbox"
           onChange={handleChange}
-          placeholder="Password Check"
+          checked={isSignUp}
         />
-        <button type="submit">Sign Up</button>
       </form>
     </>
   );
