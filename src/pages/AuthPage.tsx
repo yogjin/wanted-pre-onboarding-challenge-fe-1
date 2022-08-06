@@ -32,12 +32,14 @@ const AuthPage: FC<AuthPageProps> = () => {
       <form onSubmit={handleSubmit}>
         <input
           name="email"
+          type="email"
           value={email}
           onChange={handleChange}
           placeholder="Email"
         />
         <input
           name="password"
+          type="password"
           value={password}
           onChange={handleChange}
           placeholder="Password"
@@ -45,6 +47,7 @@ const AuthPage: FC<AuthPageProps> = () => {
         {isSignUp && (
           <input
             name="passwordCheck"
+            type="password"
             value={passwordCheck}
             onChange={handleChange}
             placeholder="Password Check"
