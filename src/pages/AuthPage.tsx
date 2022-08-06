@@ -1,13 +1,17 @@
 import React, { ChangeEvent, useState } from 'react';
 import { FC } from 'react';
+import useValidate from '../hooks/useValidate';
 
 interface AuthPageProps {}
-
+const emailRegex = new RegExp(/\w+@\w+\.\w+/);
+const passwordRegex = new RegExp(/.{8,}/);
 const AuthPage: FC<AuthPageProps> = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const isEmailValid = useValidate(email, emailRegex);
+  const isPasswordValid = useValidate(password, passwordRegex);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.currentTarget;
