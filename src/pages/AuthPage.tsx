@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { FC } from 'react';
+import useAllSame from '../hooks/useSame';
 import useValidate from '../hooks/useValidate';
 
 interface AuthPageProps {}
@@ -12,6 +13,14 @@ const AuthPage: FC<AuthPageProps> = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const isEmailValid = useValidate(email, emailRegex);
   const isPasswordValid = useValidate(password, passwordRegex);
+  const isPasswordAndPasswordCheckSame = useAllSame(password, passwordCheck);
+  const signInSubmitActivate = useAllSame(true, isEmailValid, isPasswordValid);
+  const signUpSubmitActivate = useAllSame(
+    true,
+    isEmailValid,
+    isPasswordValid,
+    isPasswordAndPasswordCheckSame
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.currentTarget;
@@ -58,9 +67,13 @@ const AuthPage: FC<AuthPageProps> = () => {
           />
         )}
         {isSignUp ? (
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={!signUpSubmitActivate}>
+            Sign Up
+          </button>
         ) : (
-          <button type="submit">Sign In</button>
+          <button type="submit" disabled={!signInSubmitActivate}>
+            Sign In
+          </button>
         )}
         <label htmlFor="signup">Sign Up</label>
         <input
