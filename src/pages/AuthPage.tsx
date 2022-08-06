@@ -2,10 +2,10 @@ import React, { ChangeEvent, useState } from 'react';
 import { FC } from 'react';
 import useAllSame from '../hooks/useSame';
 import useValidate from '../hooks/useValidate';
+import { emailRegex, passwordRegex } from '../util/regex';
 
 interface AuthPageProps {}
-const emailRegex = new RegExp(/\w+@\w+\.\w+/);
-const passwordRegex = new RegExp(/.{8,}/);
+
 const AuthPage: FC<AuthPageProps> = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
