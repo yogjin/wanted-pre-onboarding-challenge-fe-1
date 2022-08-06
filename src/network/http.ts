@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
+import HttpClient from '../types/network/http';
 
-export default class HttpClient {
-  private baseURL: string;
+export default class HttpClientImpl implements HttpClient {
+  readonly baseURL: string;
   public axios: AxiosInstance;
   constructor(baseURL: string) {
     this.baseURL = baseURL;
