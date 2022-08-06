@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import HttpClient from '../types/network/http';
+import HttpClient from '../types/http';
 
 export default class HttpClientImpl implements HttpClient {
   readonly baseURL: string;

@@ -1,4 +1,4 @@
-import TokenStorage from '../types/db/token';
+import TokenStorage from '../types/token';
 
 export class TokenStorageImpl implements TokenStorage {
   readonly TOKEN;
