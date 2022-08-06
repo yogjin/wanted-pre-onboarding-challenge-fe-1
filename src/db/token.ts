@@ -1,13 +1,15 @@
-export default class TokenStorage {
-  private TOKEN;
+import TokenStorage from '../types/db/token';
+
+export class TokenStorageImpl implements TokenStorage {
+  readonly TOKEN;
   constructor(TOKEN: string) {
     this.TOKEN = TOKEN;
   }
-  saveToken(token: string) {
+  set token(token: string) {
     localStorage.setItem(this.TOKEN, token);
   }
-  getToken() {
-    return localStorage.getItem(this.TOKEN);
+  get token() {
+    return localStorage.getItem(this.TOKEN) || '';
   }
   clearToken() {
     localStorage.removeItem(this.TOKEN);
