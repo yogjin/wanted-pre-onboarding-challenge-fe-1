@@ -8,6 +8,7 @@ import { TokenStorageImpl } from './db/token';
 import { AuthServiceImpl } from './service/auth';
 import { AuthProvider } from './context/AuthContext';
 import HttpClientImpl from './network/http';
+import { TodoServiceImpl } from './service/todo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,12 +17,13 @@ const baseURL = process.env.REACT_APP_BASE_URL || '';
 const httpClientImpl = new HttpClientImpl(baseURL);
 const tokenStorageImpl = new TokenStorageImpl('token');
 const authServiceImpl = new AuthServiceImpl(httpClientImpl, tokenStorageImpl);
+const todoServiceImpl = new TodoServiceImpl(httpClientImpl, tokenStorageImpl);
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider authService={authServiceImpl}>
-        <App />
+        <App todoService={todoServiceImpl} />
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
