@@ -44,6 +44,13 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
     });
   };
 
+  const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
+    const id = e.currentTarget.parentElement?.dataset.id!;
+    todoService.deleteTodo(id).then((response) => {
+      setTodoList((todos) => todos.filter((todo) => todo.id !== id));
+    });
+  };
+
   const handleClick = (e: MouseEvent<HTMLLIElement>) => {
     const id = e.currentTarget.dataset.id;
     const clicked = todoList.find((todo) => todo.id === id);
@@ -73,7 +80,8 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
         <ul>
           {todoList.map((todo) => (
             <li key={todo.id} onClick={handleClick} data-id={todo.id}>
-              {todo.title}
+              <span>{todo.title}</span>
+              <button onClick={handleDelete}>삭제</button>
             </li>
           ))}
         </ul>
