@@ -16,7 +16,7 @@ export class AuthServiceImpl implements AuthService {
       JSON.stringify({ email, password })
     );
     this.tokenStorage.token = response.data.token;
-    return response;
+    return response.data.token;
   }
 
   async login(email: string, password: string) {
@@ -25,10 +25,14 @@ export class AuthServiceImpl implements AuthService {
       JSON.stringify({ email, password })
     );
     this.tokenStorage.token = response.data.token;
-    return response;
+    return response.data.token;
   }
 
   async logout() {
     this.tokenStorage.clearToken();
+  }
+
+  getToken() {
+    return this.tokenStorage.token;
   }
 }
