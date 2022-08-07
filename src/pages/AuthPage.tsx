@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { FC } from 'react';
+import { useAuth } from '../context/AuthContext';
 import useAllSame from '../hooks/useSame';
 import useValidate from '../hooks/useValidate';
 import { emailRegex, passwordRegex } from '../util/regex';
@@ -21,6 +22,7 @@ const AuthPage: FC<AuthPageProps> = () => {
     isPasswordValid,
     isPasswordAndPasswordCheckSame
   );
+  const auth = useAuth();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.currentTarget;
@@ -39,7 +41,10 @@ const AuthPage: FC<AuthPageProps> = () => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e: MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    auth?.login(email, password);
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../types/auth';
@@ -38,3 +38,4 @@ export const AuthProvider: FC<AuthProviderProps> = ({
 };
 
 export default AuthContext;
+export const useAuth = () => useContext(AuthContext);
