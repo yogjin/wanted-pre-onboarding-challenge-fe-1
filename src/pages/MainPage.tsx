@@ -13,6 +13,7 @@ interface Todo {
 }
 const MainPage: FC<MainPageProps> = ({ todoService }) => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [selected, setSelected] = useState<Todo>();
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
@@ -43,6 +44,12 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
     });
   };
 
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    const id = e.currentTarget.dataset.id;
+    const clicked = todoList.find((todo) => todo.id === id);
+    setSelected(clicked);
+  };
+
   return (
     <>
       <div className="add">
@@ -65,9 +72,18 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
       <div className="lists">
         <ul>
           {todoList.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
+            <li key={todo.id} onClick={handleClick} data-id={todo.id}>
+              {todo.title}
+            </li>
           ))}
         </ul>
+        {selected && (
+          <>
+            <div>생성 날짜: {selected.createdAt}</div>
+            <div>제목: {selected.title}</div>
+            <div>내용: {selected.content}</div>
+          </>
+        )}
       </div>
     </>
   );
