@@ -10,6 +10,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<{
   login: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
 } | null>(null);
 export const AuthProvider: FC<AuthProviderProps> = ({
   authService,
@@ -27,11 +28,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({
     user ? navigate('/') : navigate('/auth');
   }, [user, navigate]);
 
+  const signUp = async (email: string, password: string) => {
+    setUser(await authService.signUp(email, password));
+  };
+
   const login = async (email: string, password: string) => {
     setUser(await authService.login(email, password));
   };
 
-  const context = { login };
+  const context = { login, signUp };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );

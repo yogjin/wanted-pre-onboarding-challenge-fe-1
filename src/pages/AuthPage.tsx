@@ -43,7 +43,7 @@ const AuthPage: FC<AuthPageProps> = () => {
 
   const handleSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    auth?.login(email, password);
+    isSignUp ? auth?.signUp(email, password) : auth?.login(email, password);
   };
   return (
     <>
