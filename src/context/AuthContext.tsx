@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../types/auth';
 
 interface AuthProviderProps {
@@ -8,18 +8,30 @@ interface AuthProviderProps {
   children?: React.ReactNode;
 }
 
-const AuthContext = createContext({});
+const AuthContext = createContext<{
+  login: (email: string, password: string) => Promise<void>;
+} | null>(null);
 export const AuthProvider: FC<AuthProviderProps> = ({
   authService,
   children,
 }) => {
-  const [user, setUser] = useState<AxiosResponse>();
+  const [user, setUser] = useState<string>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // TODO: 백엔드 서버에서 token validation middleware 추가할 시 getToken 함수 수정 필요 -> getMe()
+    setUser(authService.getToken());
+  }, [authService]);
+
+  useEffect(() => {
+    user ? navigate('/') : navigate('/auth');
+  }, [user, navigate]);
 
   const login = async (email: string, password: string) => {
     setUser(await authService.login(email, password));
   };
 
-  const context = { user, login };
+  const context = { login };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
   );
