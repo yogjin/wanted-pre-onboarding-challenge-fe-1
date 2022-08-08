@@ -1,10 +1,11 @@
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
+import TodoItem from '../components/TodoItem';
 import { TodoServiceImpl } from '../service/todo';
 
 interface MainPageProps {
   todoService: TodoServiceImpl;
 }
-interface Todo {
+export interface Todo {
   title: string;
   content: string;
   id: string;
@@ -44,7 +45,7 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
     });
   };
 
-  const handleUpdate = (e: ChangeEvent<HTMLInputElement>) => {};
+  const handleUpdate = (e: ChangeEvent<HTMLButtonElement>) => {};
 
   const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.parentElement?.dataset.id!;
@@ -81,22 +82,12 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
       <div className="lists">
         <ul>
           {todoList.map((todo) => (
-            <li key={todo.id} onClick={handleClick} data-id={todo.id}>
-              <input
-                name="title"
-                type="text"
-                value={todo.title}
-                onChange={handleUpdate}
-              />
-              <input
-                name="content"
-                type="text"
-                value={todo.content}
-                onChange={handleUpdate}
-              />
-              <button onClick={handleDelete}>수정</button>
-              <button onClick={handleDelete}>삭제</button>
-            </li>
+            <TodoItem
+              todo={todo}
+              handleClick={handleClick}
+              handleUpdate={handleUpdate}
+              handleDelete={handleDelete}
+            />
           ))}
         </ul>
         {selected && (
