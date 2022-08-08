@@ -74,6 +74,7 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
         <ul>
           {todoList.map((todo) => (
             <TodoItem
+              key={todo.id}
               todo={todo}
               handleDelete={handleDelete}
               todoService={todoService}
