@@ -5,20 +5,15 @@ import { TodoServiceImpl } from '../service/todo';
 
 interface TodoItemProps {
   todo: Todo;
-  handleClick: (e: MouseEvent<HTMLLIElement>) => void;
   handleDelete: (e: MouseEvent<HTMLButtonElement>) => void;
   todoService: TodoServiceImpl;
 }
 
-const TodoItem: FC<TodoItemProps> = ({
-  todo,
-  handleClick,
-  handleDelete,
-  todoService,
-}) => {
+const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);
+  const [detail, setDetail] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget.name;
@@ -35,13 +30,13 @@ const TodoItem: FC<TodoItemProps> = ({
 
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
     if (addable) {
-      todoService.updateTodo(todo.id, title, content).then(console.log);
+      todoService.updateTodo(todo.id, title, content);
     }
     setAddable(!addable);
   };
 
   return (
-    <li key={todo.id} onClick={handleClick} data-id={todo.id}>
+    <li key={todo.id} data-id={todo.id}>
       <input
         name="title"
         type="text"
@@ -58,6 +53,16 @@ const TodoItem: FC<TodoItemProps> = ({
       />
       <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
+      <button onClick={() => setDetail(!detail)}>상세</button>
+      <div>
+        {detail && (
+          <>
+            <div>생성 날짜: {todo.createdAt}</div>
+            <div>제목: {title}</div>
+            <div>내용: {content}</div>
+          </>
+        )}
+      </div>
     </li>
   );
 };
