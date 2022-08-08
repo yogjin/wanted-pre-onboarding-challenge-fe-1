@@ -44,6 +44,8 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
     });
   };
 
+  const handleUpdate = (e: ChangeEvent<HTMLInputElement>) => {};
+
   const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.parentElement?.dataset.id!;
     todoService.deleteTodo(id).then((response) => {
@@ -80,7 +82,19 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
         <ul>
           {todoList.map((todo) => (
             <li key={todo.id} onClick={handleClick} data-id={todo.id}>
-              <span>{todo.title}</span>
+              <input
+                name="title"
+                type="text"
+                value={todo.title}
+                onChange={handleUpdate}
+              />
+              <input
+                name="content"
+                type="text"
+                value={todo.content}
+                onChange={handleUpdate}
+              />
+              <button onClick={handleDelete}>수정</button>
               <button onClick={handleDelete}>삭제</button>
             </li>
           ))}
