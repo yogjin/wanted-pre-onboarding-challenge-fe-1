@@ -45,8 +45,6 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
     });
   };
 
-  const handleUpdate = (e: ChangeEvent<HTMLButtonElement>) => {};
-
   const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.parentElement?.dataset.id!;
     todoService.deleteTodo(id).then((response) => {
@@ -85,8 +83,8 @@ const MainPage: FC<MainPageProps> = ({ todoService }) => {
             <TodoItem
               todo={todo}
               handleClick={handleClick}
-              handleUpdate={handleUpdate}
               handleDelete={handleDelete}
+              todoService={todoService}
             />
           ))}
         </ul>

@@ -1,37 +1,62 @@
-import React, { ChangeEvent, MouseEvent } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { FC } from 'react';
 import { Todo } from '../pages/MainPage';
+import { TodoServiceImpl } from '../service/todo';
 
 interface TodoItemProps {
   todo: Todo;
   handleClick: (e: MouseEvent<HTMLLIElement>) => void;
-  handleUpdate: (e: ChangeEvent<HTMLButtonElement>) => void;
   handleDelete: (e: MouseEvent<HTMLButtonElement>) => void;
+  todoService: TodoServiceImpl;
 }
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
   handleClick,
-  handleUpdate,
   handleDelete,
+  todoService,
 }) => {
+  const [title, setTitle] = useState<string>(todo.title);
+  const [content, setContent] = useState<string>(todo.content);
+  const [addable, setAddable] = useState<boolean>(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.currentTarget.name;
+    const value = e.currentTarget.value;
+    switch (target) {
+      case 'title':
+        return setTitle(value);
+      case 'content':
+        return setContent(value);
+      default:
+        return;
+    }
+  };
+
+  const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
+    if (addable) {
+      todoService.updateTodo(todo.id, title, content).then(console.log);
+    }
+    setAddable(!addable);
+  };
+
   return (
     <li key={todo.id} onClick={handleClick} data-id={todo.id}>
       <input
         name="title"
         type="text"
-        value={todo.title}
-        // onChange={handleUpdate}
-        disabled={true}
+        value={title}
+        onChange={handleChange}
+        disabled={!addable}
       />
       <input
         name="content"
         type="text"
-        value={todo.content}
-        // onChange={handleUpdate}
-        disabled={true}
+        value={content}
+        onChange={handleChange}
+        disabled={!addable}
       />
-      {/* <button onClick={handleUpdate}>수정</button> */}
+      <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
     </li>
   );
