@@ -28,7 +28,7 @@ API Repository를 활용한 `Todo App`
 
 - Todo List API를 호출하여 Todo List CRUD 기능을 구현해주세요
   - [x] 목록 / 상세 영역으로 나누어 구현해주세요
-    - [Todo 상세: useSearchParams 이용][Todo 상세]
+    - [Todo 상세: useSearchParams 이용, query params에 해당 todo의 id가 있다면 상세영역 표시][Todo 상세]
   - [x] Todo 목록을 볼 수 있습니다.
   - [x] Todo 추가 버튼을 클릭하면 할 일이 추가 됩니다.
     - [Todo 추가][Todo 추가]
@@ -38,7 +38,7 @@ API Repository를 활용한 `Todo App`
   - [x] Todo 삭제 버튼을 클릭하면 해당 Todo를 삭제할 수 있습니다.
 - 한 화면 내에서 Todo List와 개별 Todo의 상세를 확인할 수 있도록 해주세요.
   - [x] 새로고침을 했을 때 현재 상태가 유지되어야 합니다.
-    - [이전 URL 유지][이전 URL 유지]
+    - [이전 URL 유지: 상세보기 클릭 시 localStorage에 현재 SearchParams 저장][이전 URL 유지]
   - [x] 개별 Todo를 조회 순서에 따라 페이지 뒤로가기를 통하여 조회할 수 있도록 해주세요.
     - [Todo 상세: useSearchParams 이용하여 자동으로 뒤로가기 조회기능 가능][Todo 상세]
 - 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요
