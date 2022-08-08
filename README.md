@@ -43,6 +43,17 @@ API Repository를 활용한 `Todo App`
     - [Todo 상세: useSearchParams 이용하여 자동으로 뒤로가기 조회기능 가능][Todo 상세]
 - 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요
   - [x] 수정되는 Todo의 내용이 목록에서도 실시간으로 반영되어야 합니다
+## how to use
+### Server
+Following this repository
+
+https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1-api
+### Client (this repository)
+```bash
+> yarn install
+
+> yarn start
+```
 
 ## 과제 참고 사항
 
