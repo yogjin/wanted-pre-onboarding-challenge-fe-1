@@ -15,6 +15,8 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [originalTitle, setOriginalTitle] = useState<string>('');
+  const [originalContent, setOriginalContent] = useState<string>('');
 
   useEffect(() => {
     const params = localStorage.getItem('id');
@@ -34,9 +36,18 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
     }
   };
 
+  const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+    setTitle(originalTitle);
+    setContent(originalContent);
+    setAddable(!addable);
+  };
+
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
     if (addable) {
       todoService.updateTodo(todo.id, title, content);
+    } else {
+      setOriginalTitle(title);
+      setOriginalContent(content);
     }
     setAddable(!addable);
   };
@@ -70,6 +81,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
         onChange={handleChange}
         disabled={!addable}
       />
+      {addable && <button onClick={handleCancel}>취소</button>}
       <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
       <button onClick={handleDetail}>상세</button>
