@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Todo } from '../pages/MainPage';
@@ -15,6 +15,11 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const params = localStorage.getItem('id');
+    setSearchParams({ id: `${params}` });
+  }, [setSearchParams]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget.name;
@@ -42,8 +47,10 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
     if (params?.includes(todo.id)) {
       params = params.replace(`%${todo.id}`, '');
       setSearchParams({ id: `${params}` });
+      localStorage.setItem('id', `${params}`);
     } else {
       setSearchParams({ id: `${params}%${todo.id}` });
+      localStorage.setItem('id', `${params}%${todo.id}`);
     }
   };
 
