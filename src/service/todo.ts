@@ -35,9 +35,10 @@ export class TodoServiceImpl {
     return response.data;
   }
 
-  async updateTodo(id: string) {
+  async updateTodo(id: string, title: string, content: string) {
     const response = await this.http.axios.put(
       `/todos/${id}`,
+      JSON.stringify({ title, content }),
       this.getHeaders()
     );
     return response.data;
