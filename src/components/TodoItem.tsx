@@ -1,5 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { FC } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Todo } from '../pages/MainPage';
 import { TodoServiceImpl } from '../service/todo';
 
@@ -13,7 +14,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);
-  const [detail, setDetail] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.currentTarget.name;
@@ -35,6 +36,17 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
     setAddable(!addable);
   };
 
+  const handleDetail = (e: MouseEvent<HTMLButtonElement>) => {
+    let params = searchParams.get('id');
+
+    if (params?.includes(todo.id)) {
+      params = params.replace(`%${todo.id}`, '');
+      setSearchParams({ id: `${params}` });
+    } else {
+      setSearchParams({ id: `${params}%${todo.id}` });
+    }
+  };
+
   return (
     <li key={todo.id} data-id={todo.id}>
       <input
@@ -53,9 +65,9 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
       />
       <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
-      <button onClick={() => setDetail(!detail)}>상세</button>
+      <button onClick={handleDetail}>상세</button>
       <div>
-        {detail && (
+        {searchParams.get('id')?.includes(todo.id) && (
           <>
             <div>생성 날짜: {todo.createdAt}</div>
             <div>제목: {title}</div>
