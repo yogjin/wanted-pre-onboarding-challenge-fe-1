@@ -55,13 +55,10 @@ https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1-api
 > yarn start
 ```
 
-## 과제 참고 사항
+## 😥 개선 전
 
-1. 로컬 서버를 실행했을 때 생성되는 `db/db.json`이 DB 역할을 하게 됩니다. 해당 파일을 삭제하면 DB는 초기화 됩니다.
+## 🤩 개선 후
 
-2. 로그인 / 회원 가입 기능은 유저를 DB에 추가하고 JWT 토큰을 응답으로 돌려줄 뿐, 실제 유저별로 Todo 목록을 관계 지어 관리하지는 않습니다. (모든 유저가 하나의 Todo를 가짐)
-
-3. 로그아웃은 클라이언트 단에서 localStorage에 저장된 token을 삭제하는 방식으로 간단히 구현해주세요.
 
 <!-- COMMIT BASEURL -->
 [라우팅]: https://github.com/yogjin/wanted-pre-onboarding-challenge-fe-1/commit/de92369d53ddb515db2e6a9f1714d6f65b9f5b3a
