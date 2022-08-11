@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Todo } from '../pages/MainPage';
+import { Todo } from './TodoList';
 import { TodoServiceImpl } from '../service/todo';
 
 interface TodoItemProps {
