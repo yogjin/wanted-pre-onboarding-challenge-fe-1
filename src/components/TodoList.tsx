@@ -2,6 +2,7 @@ import React, { MouseEvent, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { TodoServiceImpl } from '../service/todo';
 import TodoItem from './TodoItem';
+import TodoItems from './TodoItems';
 import TodoListHeader from './TodoListHeader';
 
 interface Props {
@@ -40,18 +41,11 @@ const TodoList: FC<Props> = (props: Props) => {
   return (
     <div className="todoList">
       <TodoListHeader onCreateTodo={handleCreateTodo} />
-      <div className="todoItems">
-        <ul>
-          {todoList.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              handleDelete={handleDeleteTodo}
-              todoService={props.todoService}
-            />
-          ))}
-        </ul>
-      </div>
+      <TodoItems
+        todoList={todoList}
+        onDeleteTodo={handleDeleteTodo}
+        todoService={props.todoService}
+      />
     </div>
   );
 };
