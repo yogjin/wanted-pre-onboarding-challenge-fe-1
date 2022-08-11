@@ -45,12 +45,16 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
     setAddable(!addable);
   };
 
+  function 수정_전_상태_저장() {
+    setOriginalTitle(title);
+    setOriginalContent(content);
+  }
+
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
     if (addable) {
       onUpdateTodo(todo.id, title, content);
     } else {
-      setOriginalTitle(title);
-      setOriginalContent(content);
+      수정_전_상태_저장();
     }
     setAddable(!addable);
   };
