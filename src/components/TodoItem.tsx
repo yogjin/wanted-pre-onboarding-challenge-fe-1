@@ -1,26 +1,29 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Todo } from '../pages/MainPage';
-import { TodoServiceImpl } from '../service/todo';
+import { Todo } from './TodoList';
 
 interface TodoItemProps {
   todo: Todo;
-  handleDelete: (e: MouseEvent<HTMLButtonElement>) => void;
-  todoService: TodoServiceImpl;
+  onDeleteTodo: (id: string) => void;
+  onUpdateTodo: (id: string, title: string, content: string) => void;
 }
 
-const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
+const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
-  const [addable, setAddable] = useState<boolean>(false);
+  const [수정가능, set수정가능] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [originalTitle, setOriginalTitle] = useState<string>('');
   const [originalContent, setOriginalContent] = useState<string>('');
 
   useEffect(() => {
-    const params = localStorage.getItem('id');
-    setSearchParams({ id: `${params}` });
+    // 상세보기 중이었던 todo 기록 가져오기
+    function setOpenedTodos() {
+      const openedTodos = localStorage.getItem('openedTodos');
+      setSearchParams({ openedTodos: `${openedTodos}` });
+    }
+    setOpenedTodos();
   }, [setSearchParams]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,32 +39,61 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
     }
   };
 
-  const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+  function 수정_전_상태로_복구() {
     setTitle(originalTitle);
     setContent(originalContent);
-    setAddable(!addable);
+  }
+
+  const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+    수정_전_상태로_복구();
+    set수정가능(!수정가능);
   };
+
+  function 수정_전_상태_저장() {
+    setOriginalTitle(title);
+    setOriginalContent(content);
+  }
 
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
-    if (addable) {
-      todoService.updateTodo(todo.id, title, content);
+    if (수정가능) {
+      // 저장 버튼 누를 때
+      onUpdateTodo(todo.id, title, content);
     } else {
-      setOriginalTitle(title);
-      setOriginalContent(content);
+      // 수정 버튼 누를 때
+      수정_전_상태_저장();
     }
-    setAddable(!addable);
+    set수정가능(!수정가능);
   };
 
-  const handleDetail = (e: MouseEvent<HTMLButtonElement>) => {
-    let params = searchParams.get('id');
+  function handleDelete(e: MouseEvent<HTMLButtonElement>) {
+    const id = e.currentTarget.parentElement?.dataset.id!;
+    onDeleteTodo(id);
+  }
 
-    if (params?.includes(todo.id)) {
-      params = params.replace(`%${todo.id}`, '');
-      setSearchParams({ id: `${params}` });
-      localStorage.setItem('id', `${params}`);
+  function removeTodoFromOpenedTodos(todoId: string) {
+    let openedTodos = searchParams
+      .get('openedTodos')
+      ?.replace(`%${todoId}`, '');
+    setSearchParams({ openedTodos: `${openedTodos}` });
+    localStorage.setItem('openedTodos', `${openedTodos}`);
+  }
+
+  function saveTodoInOpenedTodos(todoId: string) {
+    let openedTodos = searchParams.get('openedTodos');
+    setSearchParams({ openedTodos: `${openedTodos}%${todoId}` });
+    localStorage.setItem('openedTodos', `${openedTodos}%${todoId}`);
+  }
+
+  function isOpened(todoId: string) {
+    return searchParams.get('openedTodos')?.includes(todoId);
+  }
+
+  const handleDetail = () => {
+    if (isOpened(todo.id)) {
+      // 상세보기 중인 todo
+      removeTodoFromOpenedTodos(todo.id);
     } else {
-      setSearchParams({ id: `${params}%${todo.id}` });
-      localStorage.setItem('id', `${params}%${todo.id}`);
+      saveTodoInOpenedTodos(todo.id);
     }
   };
 
@@ -72,21 +104,21 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
         type="text"
         value={title}
         onChange={handleChange}
-        disabled={!addable}
+        disabled={!수정가능}
       />
       <input
         name="content"
         type="text"
         value={content}
         onChange={handleChange}
-        disabled={!addable}
+        disabled={!수정가능}
       />
-      {addable && <button onClick={handleCancel}>취소</button>}
-      <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
+      {수정가능 && <button onClick={handleCancel}>취소</button>}
+      <button onClick={handleUpdate}>{수정가능 ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
       <button onClick={handleDetail}>상세</button>
       <div>
-        {searchParams.get('id')?.includes(todo.id) && (
+        {isOpened(todo.id) && (
           <>
             <div>생성 날짜: {todo.createdAt}</div>
             <div>제목: {title}</div>
