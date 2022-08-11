@@ -12,7 +12,7 @@ interface TodoItemProps {
 const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
-  const [addable, setAddable] = useState<boolean>(false);
+  const [수정가능, set수정가능] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [originalTitle, setOriginalTitle] = useState<string>('');
   const [originalContent, setOriginalContent] = useState<string>('');
@@ -42,7 +42,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
 
   const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
     수정_전_상태로_복구();
-    setAddable(!addable);
+    set수정가능(!수정가능);
   };
 
   function 수정_전_상태_저장() {
@@ -51,12 +51,12 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   }
 
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
-    if (addable) {
+    if (수정가능) {
       onUpdateTodo(todo.id, title, content);
     } else {
       수정_전_상태_저장();
     }
-    setAddable(!addable);
+    set수정가능(!수정가능);
   };
 
   function handleDelete(e: MouseEvent<HTMLButtonElement>) {
@@ -84,17 +84,17 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
         type="text"
         value={title}
         onChange={handleChange}
-        disabled={!addable}
+        disabled={!수정가능}
       />
       <input
         name="content"
         type="text"
         value={content}
         onChange={handleChange}
-        disabled={!addable}
+        disabled={!수정가능}
       />
-      {addable && <button onClick={handleCancel}>취소</button>}
-      <button onClick={handleUpdate}>{addable ? '저장' : '수정'}</button>
+      {수정가능 && <button onClick={handleCancel}>취소</button>}
+      <button onClick={handleUpdate}>{수정가능 ? '저장' : '수정'}</button>
       <button onClick={handleDelete}>삭제</button>
       <button onClick={handleDetail}>상세</button>
       <div>
