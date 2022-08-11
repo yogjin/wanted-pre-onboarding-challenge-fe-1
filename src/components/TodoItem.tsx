@@ -7,10 +7,16 @@ import { TodoServiceImpl } from '../service/todo';
 interface TodoItemProps {
   todo: Todo;
   handleDelete: (e: MouseEvent<HTMLButtonElement>) => void;
+  onUpdateTodo: (id: string, title: string, content: string) => void;
   todoService: TodoServiceImpl;
 }
 
-const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
+const TodoItem: FC<TodoItemProps> = ({
+  todo,
+  handleDelete,
+  onUpdateTodo,
+  todoService,
+}) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);
@@ -44,7 +50,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, handleDelete, todoService }) => {
 
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
     if (addable) {
-      todoService.updateTodo(todo.id, title, content);
+      onUpdateTodo(todo.id, title, content);
     } else {
       setOriginalTitle(title);
       setOriginalContent(content);

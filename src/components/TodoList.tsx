@@ -38,12 +38,17 @@ const TodoList: FC<Props> = (props: Props) => {
     });
   }
 
+  function handleUpdateTodo(id: string, title: string, content: string) {
+    props.todoService.updateTodo(id, title, content);
+  }
+
   return (
     <div className="todoList">
       <TodoListHeader onCreateTodo={handleCreateTodo} />
       <TodoItems
         todos={todos}
         onDeleteTodo={handleDeleteTodo}
+        onUpdateTodo={handleUpdateTodo}
         todoService={props.todoService}
       />
     </div>

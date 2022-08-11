@@ -7,6 +7,7 @@ import { Todo } from './TodoList';
 interface Props {
   todos: Todo[];
   onDeleteTodo: (e: MouseEvent<HTMLButtonElement>) => void;
+  onUpdateTodo: (id: string, title: string, content: string) => void;
   todoService: TodoServiceImpl;
 }
 
@@ -19,6 +20,7 @@ const TodoItems: FC<Props> = (props: Props) => {
             key={todo.id}
             todo={todo}
             handleDelete={props.onDeleteTodo}
+            onUpdateTodo={props.onUpdateTodo}
             todoService={props.todoService}
           />
         ))}
