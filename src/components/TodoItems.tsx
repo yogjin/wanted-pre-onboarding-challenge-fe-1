@@ -5,7 +5,7 @@ import TodoItem from './TodoItem';
 import { Todo } from './TodoList';
 
 interface Props {
-  todoList: Todo[];
+  todos: Todo[];
   onDeleteTodo: (e: MouseEvent<HTMLButtonElement>) => void;
   todoService: TodoServiceImpl;
 }
@@ -14,7 +14,7 @@ const TodoItems: FC<Props> = (props: Props) => {
   return (
     <div className="todoItems">
       <ul>
-        {props.todoList.map((todo) => (
+        {props.todos.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}

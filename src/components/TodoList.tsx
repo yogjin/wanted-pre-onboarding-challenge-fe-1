@@ -18,23 +18,23 @@ export interface Todo {
 }
 
 const TodoList: FC<Props> = (props: Props) => {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   useEffect(() => {
     props.todoService.getTodos().then((response) => {
-      setTodoList(response.data);
+      setTodos(response.data);
     });
   }, [props.todoService]);
 
   const handleDeleteTodo = (e: MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.parentElement?.dataset.id!;
     props.todoService.deleteTodo(id).then((response) => {
-      setTodoList((todos) => todos.filter((todo) => todo.id !== id));
+      setTodos((todos) => todos.filter((todo) => todo.id !== id));
     });
   };
 
   function handleCreateTodo(title: string, content: string) {
     props.todoService.createTodo(title, content).then((response) => {
-      setTodoList([...todoList, response.data]);
+      setTodos([...todos, response.data]);
     });
   }
 
@@ -42,7 +42,7 @@ const TodoList: FC<Props> = (props: Props) => {
     <div className="todoList">
       <TodoListHeader onCreateTodo={handleCreateTodo} />
       <TodoItems
-        todoList={todoList}
+        todos={todos}
         onDeleteTodo={handleDeleteTodo}
         todoService={props.todoService}
       />
