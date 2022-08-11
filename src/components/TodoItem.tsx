@@ -18,8 +18,12 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [originalContent, setOriginalContent] = useState<string>('');
 
   useEffect(() => {
-    const params = localStorage.getItem('id');
-    setSearchParams({ id: `${params}` });
+    // 상세보기 중이었던 todo 기록 가져오기
+    function setOpenedTodos() {
+      const openedTodos = localStorage.getItem('openedTodos');
+      setSearchParams({ openedTodos: `${openedTodos}` });
+    }
+    setOpenedTodos();
   }, [setSearchParams]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,16 +70,30 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
     onDeleteTodo(id);
   }
 
-  const handleDetail = (e: MouseEvent<HTMLButtonElement>) => {
-    let params = searchParams.get('id');
+  function removeTodoFromOpenedTodos(todoId: string) {
+    let openedTodos = searchParams
+      .get('openedTodos')
+      ?.replace(`%${todoId}`, '');
+    setSearchParams({ openedTodos: `${openedTodos}` });
+    localStorage.setItem('openedTodos', `${openedTodos}`);
+  }
 
-    if (params?.includes(todo.id)) {
-      params = params.replace(`%${todo.id}`, '');
-      setSearchParams({ id: `${params}` });
-      localStorage.setItem('id', `${params}`);
+  function saveTodoInOpenedTodos(todoId: string) {
+    let openedTodos = searchParams.get('openedTodos');
+    setSearchParams({ openedTodos: `${openedTodos}%${todoId}` });
+    localStorage.setItem('openedTodos', `${openedTodos}%${todoId}`);
+  }
+
+  function isOpened(todoId: string) {
+    return searchParams.get('openedTodos')?.includes(todoId);
+  }
+
+  const handleDetail = () => {
+    if (isOpened(todo.id)) {
+      // 상세보기 중인 todo
+      removeTodoFromOpenedTodos(todo.id);
     } else {
-      setSearchParams({ id: `${params}%${todo.id}` });
-      localStorage.setItem('id', `${params}%${todo.id}`);
+      saveTodoInOpenedTodos(todo.id);
     }
   };
 
@@ -100,7 +118,7 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
       <button onClick={handleDelete}>삭제</button>
       <button onClick={handleDetail}>상세</button>
       <div>
-        {searchParams.get('id')?.includes(todo.id) && (
+        {isOpened(todo.id) && (
           <>
             <div>생성 날짜: {todo.createdAt}</div>
             <div>제목: {title}</div>
