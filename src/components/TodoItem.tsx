@@ -52,8 +52,10 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
 
   const handleUpdate = (e: MouseEvent<HTMLButtonElement>) => {
     if (수정가능) {
+      // 저장 버튼 누를 때
       onUpdateTodo(todo.id, title, content);
     } else {
+      // 수정 버튼 누를 때
       수정_전_상태_저장();
     }
     set수정가능(!수정가능);
