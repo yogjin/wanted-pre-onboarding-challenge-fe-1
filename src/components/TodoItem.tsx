@@ -35,9 +35,13 @@ const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
     }
   };
 
-  const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+  function 수정_전_상태로_복구() {
     setTitle(originalTitle);
     setContent(originalContent);
+  }
+
+  const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+    수정_전_상태로_복구();
     setAddable(!addable);
   };
 
