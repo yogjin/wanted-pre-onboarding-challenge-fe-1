@@ -25,8 +25,7 @@ const TodoList: FC<Props> = (props: Props) => {
     });
   }, [props.todoService]);
 
-  const handleDeleteTodo = (e: MouseEvent<HTMLButtonElement>) => {
-    const id = e.currentTarget.parentElement?.dataset.id!;
+  const handleDeleteTodo = (id: string) => {
     props.todoService.deleteTodo(id).then((response) => {
       setTodos((todos) => todos.filter((todo) => todo.id !== id));
     });

@@ -6,14 +6,14 @@ import { TodoServiceImpl } from '../service/todo';
 
 interface TodoItemProps {
   todo: Todo;
-  handleDelete: (e: MouseEvent<HTMLButtonElement>) => void;
+  onDeleteTodo: (id: string) => void;
   onUpdateTodo: (id: string, title: string, content: string) => void;
   todoService: TodoServiceImpl;
 }
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
-  handleDelete,
+  onDeleteTodo,
   onUpdateTodo,
   todoService,
 }) => {
@@ -57,6 +57,11 @@ const TodoItem: FC<TodoItemProps> = ({
     }
     setAddable(!addable);
   };
+
+  function handleDelete(e: MouseEvent<HTMLButtonElement>) {
+    const id = e.currentTarget.parentElement?.dataset.id!;
+    onDeleteTodo(id);
+  }
 
   const handleDetail = (e: MouseEvent<HTMLButtonElement>) => {
     let params = searchParams.get('id');

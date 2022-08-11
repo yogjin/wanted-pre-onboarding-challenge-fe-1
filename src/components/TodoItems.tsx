@@ -6,7 +6,7 @@ import { Todo } from './TodoList';
 
 interface Props {
   todos: Todo[];
-  onDeleteTodo: (e: MouseEvent<HTMLButtonElement>) => void;
+  onDeleteTodo: (id: string) => void;
   onUpdateTodo: (id: string, title: string, content: string) => void;
   todoService: TodoServiceImpl;
 }
