@@ -2,21 +2,14 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Todo } from './TodoList';
-import { TodoServiceImpl } from '../service/todo';
 
 interface TodoItemProps {
   todo: Todo;
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: (id: string, title: string, content: string) => void;
-  todoService: TodoServiceImpl;
 }
 
-const TodoItem: FC<TodoItemProps> = ({
-  todo,
-  onDeleteTodo,
-  onUpdateTodo,
-  todoService,
-}) => {
+const TodoItem: FC<TodoItemProps> = ({ todo, onDeleteTodo, onUpdateTodo }) => {
   const [title, setTitle] = useState<string>(todo.title);
   const [content, setContent] = useState<string>(todo.content);
   const [addable, setAddable] = useState<boolean>(false);

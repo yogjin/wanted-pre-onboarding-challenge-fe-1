@@ -8,7 +8,6 @@ interface Props {
   todos: Todo[];
   onDeleteTodo: (id: string) => void;
   onUpdateTodo: (id: string, title: string, content: string) => void;
-  todoService: TodoServiceImpl;
 }
 
 const TodoItems: FC<Props> = (props: Props) => {
@@ -19,9 +18,8 @@ const TodoItems: FC<Props> = (props: Props) => {
           <TodoItem
             key={todo.id}
             todo={todo}
-            handleDelete={props.onDeleteTodo}
+            onDeleteTodo={props.onDeleteTodo}
             onUpdateTodo={props.onUpdateTodo}
-            todoService={props.todoService}
           />
         ))}
       </ul>

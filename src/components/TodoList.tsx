@@ -48,7 +48,6 @@ const TodoList: FC<Props> = (props: Props) => {
         todos={todos}
         onDeleteTodo={handleDeleteTodo}
         onUpdateTodo={handleUpdateTodo}
-        todoService={props.todoService}
       />
     </div>
   );
